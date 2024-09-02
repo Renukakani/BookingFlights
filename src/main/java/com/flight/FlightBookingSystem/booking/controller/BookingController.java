@@ -38,8 +38,8 @@ public class BookingController {
         return ResponseEntity.ok(booking);
     }
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteBooking(@PathVariable("id") Long id){
+    public ResponseEntity<String> deleteBooking(@PathVariable("id") Long id){
         bookingService.deleteBooking(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Deleted Successfully");
     }
 }

@@ -38,7 +38,12 @@ public class Flight {
 
     // Getters and Setters
     // Constructors
+    public Flight(){
 
+    }
+    public Flight(String fNum,String depCity,String ArrCity,LocalDateTime time,Integer seats,BigDecimal price){
+        flightNumber=fNum;departureCity=depCity;arrivalCity=ArrCity;departureTime=time;seatsAvailable=seats;pricePerSeat=price;
+    }
     public Long getId() {
         return id;
     }

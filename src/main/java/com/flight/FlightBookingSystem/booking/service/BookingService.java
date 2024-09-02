@@ -50,9 +50,9 @@ public class BookingService {
         if(flight.getSeatsAvailable()<=0){
             throw new SeatsNotAvailableException("Insufficient seats Available for the Flight: "+flight.getFlightNumber());
         }
-        if(isWithinTwoHoursOfDeparture(flight.getDepartureTime())){
+       /* if(isWithinTwoHoursOfDeparture(flight.getDepartureTime())){
             throw new SeatsNotAvailableException("Cannot Process the Booking Request as the Departure Time is Less Than 2Hours");
-        }
+        }*/
 
         Booking booking = new Booking();
         booking.setBookingDate(bookingDTO.getBookingDate());
@@ -84,17 +84,18 @@ public class BookingService {
     }
 
     // Cancel a booking by ID
-    public Booking deleteBooking(Long id) {
+    public void deleteBooking(Long id) {
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new BookingNotFoundException("Booking not found with id: " + id));
         booking.setStatus(BookingStatus.CANCELLED.toString());
-        Booking savedBooking=bookingRepository.save(booking);
-        if(savedBooking!=null || savedBooking.getId()!=null){
+        bookingRepository.deleteById(id);
+        System.out.println("-------------------"+id);
+        if(booking!=null || booking.getId()!=null){
             int seatsAvailable=booking.getFlight().getSeatsAvailable()+1;
-
+            System.out.println("---------flight----------"+id);
              flightService.updateSeatsAvailable(booking.getFlight().getId(), seatsAvailable);
         }
-        return savedBooking;
+
 
     }
 
